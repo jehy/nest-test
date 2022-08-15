@@ -14,7 +14,7 @@ services:
     environment:
       POSTGRES_HOST: postgres
     # Run a command against the development stage of the image
-    command: npm run start:dev
+    command: node dist/src/main.js
     ports:
       - 3000:3000
     depends_on:
