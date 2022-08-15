@@ -7,6 +7,7 @@ docker-compose up
 
 ## Testing
 ```bash
+npm ci
 docker-compose up
 npm run migrate:up
 npm run fixtures
