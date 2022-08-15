@@ -24,4 +24,5 @@ http://127.0.0.1:3000/graphql
 1. Full testing within docker, for now it can be only done locally.
 2. Better linting and tsconfig settings.
 3. CI could be made with github actions. It's really simple but I'm too short on time.
-4. I'm pretty sure that I messed up several times around postgres data types and courses conversion - but I suppose that you get the general idea :)
+4. Of cause there should be many more test cases which check course conversion, exact amounts and different kinds of errors.
+5. I'm pretty sure that I messed up several times around postgres data types and courses conversion - but I suppose that you get the general idea :)
