@@ -1,0 +1,8 @@
+entity: Currency
+items:
+  currency1:
+    id: 1
+    title: "USD"
+  currency2:
+    id: 2
+    title: "EUR"
