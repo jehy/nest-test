@@ -15,6 +15,8 @@ COPY --chown=node:node package*.json ./
 # Install app dependencies using the `npm ci` command instead of `npm install`
 RUN npm ci
 
+RUN npm i -g npm@latest
+
 # Bundle app source
 COPY --chown=node:node . .
 
@@ -26,6 +28,8 @@ USER node
 ###################
 
 FROM node:18-alpine As build
+
+RUN npm i -g npm@latest
 
 WORKDIR /usr/src/app
 
@@ -43,12 +47,12 @@ COPY --chown=node:node . .
 RUN npm run build
 
 # Set NODE_ENV environment variable
-ENV NODE_ENV production
+#ENV NODE_ENV production
 
 # Running `npm ci` removes the existing node_modules directory.
 # Passing in --only=production ensures that only the production dependencies are installed.
 # This ensures that the node_modules directory is as optimized as possible.
-RUN npm ci && npm cache clean --force
+#RUN npm ci && npm cache clean --force
 
 USER node
 

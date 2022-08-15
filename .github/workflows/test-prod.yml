@@ -1,0 +1,26 @@
+name: Test
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x ]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the docker-compose stack
+        run: docker-compose up -d
+      - name: Sleep
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '10s'
+      - name: Check running containers
+        run: docker ps -a
+      - name: Check logs
+        run: docker logs api
+#      - name: Apply migrations
+#        run: docker exec -w /usr/src/app/ api  npm run migrate:up
+#      - name: Apply fixtures
+#        run: docker exec -w /usr/src/app/ api  npm run fixtures
+#      - name: Run test suite
+#        run: docker exec -w /usr/src/app/ api  npm run test:e2e

@@ -2,11 +2,11 @@ version: '3.7'
 
 services:
   api:
+    container_name: api
     build:
       dockerfile: Dockerfile
       context: .
-      # Only will build development stage from our dockerfile
-      target: development
+      target: production
     volumes:
       - .:/usr/src/app
     env_file:
