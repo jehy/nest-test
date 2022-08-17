@@ -1,18 +1,23 @@
 # Sample banking microservice
 
-[![Build](https://github.com/jehy/nest-test/actions/workflows/test.yml/badge.svg)](https://github.com/jehy/nest-test/actions/workflows/test.yml)
+[![DockerTest](https://github.com/jehy/nest-test/actions/workflows/dockerTest.yml/badge.svg)](https://github.com/jehy/nest-test/actions/workflows/dockerTest.yml)
+[![LocalTest](https://github.com/jehy/nest-test/actions/workflows/localTest.yml/badge.svg)](https://github.com/jehy/nest-test/actions/workflows/localTest.yml)
 
-## Start
-docker-compose up
+## Start prod version
 
-## Testing
 ```bash
-npm ci
-docker-compose up
+docker-compose up postgres api
+```
+
+## Start dev version and test it
+
+```bash
+docker-compose up postgres api-dev
 npm run migrate:up
 npm run fixtures
 npm run test:e2e
 ```
+
 ## Api doc
 http://127.0.0.1:3000/graphql
 
@@ -22,10 +27,9 @@ http://127.0.0.1:3000/graphql
 3. I wanted to add a transaction history table which could provide really important information. Also, it could be linked with courses table to show which course we used at the moment.
 4. There is no pm2, nodemon or other supervisers because nobody really use them in production. But of course we have to launch, monitor and balance our microservice.
 5. I don't like end to end tests because they are heavy and difficult to write. But it made no sense to write unit tests here.
+6. I added two containers - one for testing (with all deps), and another, optimized, for production deploy.
 
 ## What else could be done
-1. Full testing within docker, for now it can be only done locally.
-2. Better linting and tsconfig settings.
-3. ~~CI could be made with github actions. It's really simple but I'm too short on time.~~ Github actions could be better with migrations and test.
-4. Of course there should be many more test cases which check course conversion, exact amounts and different kinds of errors.
-5. I'm pretty sure that I messed up several times around postgres data types and courses conversion - but I suppose that you get the general idea :)
+1. Better linting and tsconfig settings.
+2. Of course there should be many more test cases which check course conversion, exact amounts and different kinds of errors.
+3. I'm pretty sure that I messed up several times around postgres data types and courses conversion - but I suppose that you get the general idea :)

@@ -1,14 +1,13 @@
 version: '3.7'
 
 services:
-  api:
-    container_name: api
+  api-dev:
+    container_name: api-dev
     build:
       dockerfile: Dockerfile
+      target: development
       context: .
-      target: production
-    volumes:
-      - .:/usr/src/app
+    working_dir: /usr/src/app
     env_file:
       - .env
     environment:
@@ -16,10 +15,28 @@ services:
     # Run a command against the development stage of the image
     command: node dist/src/main.js
     ports:
-      - 3000:3000
+      - '3000:3000'
+    depends_on:
+      - postgres
+  api:
+    container_name: api
+    build:
+      dockerfile: Dockerfile
+      target: production
+      context: .
+    working_dir: /usr/src/app
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: postgres
+    # Run a command against the development stage of the image
+    command: node dist/src/main.js
+    ports:
+      - '3000:3000'
     depends_on:
       - postgres
   postgres:
+    container_name: postgres
     image: postgres
     restart: always
     environment:
