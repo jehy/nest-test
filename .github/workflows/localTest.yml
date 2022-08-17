@@ -1,0 +1,16 @@
+name: LocalTest
+on: [push, pull_request]
+jobs:
+  localTest:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x ]
+    steps:
+      - uses: actions/checkout@v2
+      - name: install deps
+        run: npm ci
+      - name: lint
+        run: npm run lint
+      - name: lint
+        run: npm run build

@@ -1,0 +1,37 @@
+name:   dockerTest
+on: [push, pull_request]
+jobs:
+  dockerTest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the docker-compose stack for dev
+        run: docker-compose up -d api-dev postgres
+      - name: Sleep
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '10s'
+      - name: Check running containers
+        run: docker ps -a
+      - name: Check logs dev
+        run: docker logs api-dev
+      - name: Apply migrations
+        run: docker exec api-dev npm run typeorm migration:run
+      - name: Apply fixtures
+        run: docker exec api-dev npm run fixtures
+      - name: Run test suite
+        run: docker exec api-dev npm run test:e2e
+      - name: Stop api dev
+        run: docker-compose kill api-dev
+      - name: Build the docker-compose stack for prod
+        run: docker-compose up -d api
+      - name: Sleep
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '10s'
+      - name: Check running containers
+        run: docker ps -a
+      - name: Check logs prod
+        run: docker logs api
+      - name: Check if production api running
+        run: curl 127.0.0.1:3000
